@@ -1,0 +1,26 @@
+{
+    "name": "dioscouri/f3-support",
+    "type": "component",
+    "description": "Support system for the F3-framework",
+    "keywords": ["F3","RAD", "support", "ticketing"],
+    "homepage": "https://github.com/dioscouri/f3-support",
+    "license": "GPL",
+    "authors": [
+        {
+            "name": "Rafael Diaz-Tushman",
+            "email": "rdiaztushman@dioscouri.com",
+            "homepage": "http://dioscouri.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "dioscouri/f3-lib": "dev-master",
+        "dioscouri/f3-admin": "dev-master"
+    },
+    "autoload": {
+        "psr-0": {
+            "Support": "src/"
+        }
+    }    
+}
