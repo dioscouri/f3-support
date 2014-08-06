@@ -28,6 +28,11 @@ class Listener extends \Dsc\Singleton
                     'icon' => 'fa fa-support'
                 ),
                 array(
+                    'title' => 'Live Chat',
+                    'route' => './admin/support/live-chat',
+                    'icon' => 'fa fa-rocket'
+                ),                
+                array(
                     'title' => 'Settings',
                     'route' => './admin/support/settings',
                     'icon' => 'fa fa-cogs'

@@ -1,0 +1,38 @@
+#site-chat-container {
+  position: fixed;
+  z-index: 99999;
+  right: 40px;
+  bottom: 0px;
+  min-width: 350px;
+  max-width: 350px; 
+}
+
+#site-chat {
+  margin-bottom: 0px;
+}
+
+#site-chat .panel-heading,
+#site-chat-chevron {
+  cursor: pointer;
+}
+
+#chat-messages {
+  max-height: 500px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+/* http://twitter.github.com/bootstrap/scaffolding.html#responsive */
+ 
+/* Landscape phones and down */
+@media (max-width: 480px) { 
+  #site-chat-container {
+    right: 20px;
+    min-width: 260px;
+    max-width: 260px; 
+  }
+  
+  #chat-messages {
+    max-height: 150px;
+  }  
+}
