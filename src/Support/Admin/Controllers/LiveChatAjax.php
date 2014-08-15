@@ -11,6 +11,12 @@ class LiveChatAjax extends LiveChat
     
     public function init()
     {
+        $user = $this->getIdentity();
+        if (empty($user->id)) 
+        {
+            return;
+        }
+        
         // Display the tabs
         return $this->outputJson( $this->getJsonResponse( array(
             'result' => $this->theme->renderView('Support/Admin/Views::livechatajax/init.php') 
