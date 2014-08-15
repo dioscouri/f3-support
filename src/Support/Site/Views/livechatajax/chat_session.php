@@ -6,9 +6,9 @@
             <div class="col-xs-8 col-sm-8 col-md-8">
                 <form id="site-chat-form" action="./support/live-chat/ajax/comment" data-callback="SupportLiveChatUpdate">
                     <div class="input-group form-group">
-                        <input type="text" class="form-control" id="new-comment" name="comment" placeholder="Comment...">
+                        <input type="text" class="form-control comment" id="new-comment" name="comment" placeholder="Comment...">
                         <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">Send</button>
+                            <input type="submit" class="btn btn-default" value="Send" />
                         </span>
                     </div>
                 </form>
@@ -74,7 +74,7 @@ jQuery(document).ready(function(){
                 window.location = r.redirect; 
             }
             if (r.error == false) {
-                form.find(':input').val("");
+                form.find(':input.comment').val("");
                 if (form.attr('data-callback')) {
                     callback = form.attr('data-callback');
                     Dsc.executeFunctionByName(callback, window, r);

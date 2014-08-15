@@ -20,9 +20,9 @@
 <div class="panel-footer">
     <form id="site-chat-form-<?php echo $chat_id; ?>" action="./admin/support/live-chat/ajax/comment/<?php echo $chat_id; ?>" data-callback="SupportLiveChatUpdate<?php echo $chat_id; ?>">
         <div class="input-group form-group">
-            <input type="text" class="form-control" id="new-comment-<?php echo $chat_id; ?>" name="comment" placeholder="Add your comment here">
+            <input type="text" class="form-control comment" id="new-comment-<?php echo $chat_id; ?>" name="comment" placeholder="Add your comment here">
             <span class="input-group-btn">
-                <button class="btn btn-default" type="button">Send</button>
+                <input type="submit" class="btn btn-default" value="Send" />
             </span>
         </div>
     </form>
@@ -77,7 +77,7 @@ jQuery(document).ready(function(){
                 window.location = r.redirect; 
             }
             if (r.error == false) {
-                form.find(':input').val("");
+                form.find(':input.comment').val("");
                 if (form.attr('data-callback')) {
                     callback = form.attr('data-callback');
                     Dsc.executeFunctionByName(callback, window, r);
