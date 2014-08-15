@@ -5,7 +5,9 @@
             <?php if ($message['sender_type'] == 'user') { ?>
             <div class="col-xs-9 col-sm-10 col-md-10">
                 <div class="list-group-item-heading"><?php echo $message['text']; ?></div>
-                <p class="text-info"><?php echo $message['sender_name']; ?> <small class="text-muted"><?php echo \Dsc\Mongo\Collections\Sessions::ago( $message['timestamp'] ); ?></small></p>
+                <p class="text-info"><?php echo $message['sender_name']; ?> 
+                    <?php /*?><small class="text-muted"><?php echo \Dsc\Mongo\Collections\Sessions::ago( $message['timestamp'] ); ?></small>*/ ?>
+                </p>
             </div>            
             <div class="col-xs-3 col-sm-2 col-md-2">
                 <i class="fa fa-comment"></i>
@@ -20,7 +22,9 @@
             </div>
             <div class="col-xs-9 col-sm-10 col-md-10">
                 <div class="list-group-item-heading"><?php echo $message['text']; ?></div>
-                <p class="text-info"><?php echo $message['sender_name']; ?> <small class="text-muted"><?php echo \Dsc\Mongo\Collections\Sessions::ago( $message['timestamp'] ); ?></small></p>
+                <p class="text-info"><?php echo $message['sender_name']; ?> 
+                    <?php /*?><small class="text-muted"><?php echo \Dsc\Mongo\Collections\Sessions::ago( $message['timestamp'] ); ?></small>*/ ?>
+                </p>
             </div>            
             <?php } ?>
         </div>
