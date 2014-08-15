@@ -181,17 +181,16 @@ class LiveChat extends \Admin\Controllers\BaseAuth
                 throw new \Exception( 'Invalid Session' );
             }
     
-            $chat_session->session_id_admin = $this->session->id();
-            $chat_session->admin_id = new \MongoId( (string) $this->getIdentity()->id );
-            $chat_session->admin_name = $this->getIdentity()->first_name;
-            $chat_session->status = 'claimed';
+            if ($chat_session->admin_id != (string) $this->getIdentity()->id) {
+                throw new \Exception( 'You cannot close that session because you are not in it!' );
+            }            
+
+            $chat_session->archive();
     
-            $chat_session->save();
-    
-            \Dsc\System::addMessage('You claimed that session');
+            \Dsc\System::addMessage('You closed that session');
         }
         catch (\Exception $e) {
-            \Dsc\System::addMessage('There was an error claiming that session.', 'error');
+            \Dsc\System::addMessage('There was an error closing that session.', 'error');
             \Dsc\System::addMessage($e->getMessage(), 'error');
         }
     

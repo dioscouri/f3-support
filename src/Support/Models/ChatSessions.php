@@ -253,5 +253,16 @@ class ChatSessions extends \Dsc\Mongo\Collections\Nodes
         $user = (new \Users\Models\Users)->load(array('_id'=>$this->user_id));
     
         return $user;
-    }    
+    }
+
+    /**
+     * Pushes $this to the archive,
+     * then removes it
+     */
+    public function archive()
+    {
+        $archive = (new \Support\Models\ChatSessionsArchive( $this ))->save();
+        
+        return $this->remove();
+    }
 }

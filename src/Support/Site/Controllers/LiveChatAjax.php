@@ -51,7 +51,7 @@ class LiveChatAjax extends LiveChat
         $chat_session = (new \Support\Models\ChatSessions)->setState('filter.user_session', $this->session->id())->getItem();
         if (!empty($chat_session->id))
         {
-            $chat_session->remove();
+            $chat_session->archive();
         }
                 
         // no matter what, set a flag so the tab doesn't display during the session 
