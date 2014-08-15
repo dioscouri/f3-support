@@ -18,7 +18,8 @@ class ChatSessions extends \Dsc\Mongo\Collections\Nodes
     public $user_email = null;
     public $user_name = null;
     public $admin_name = null;
-        
+    public $admin_email = null;
+    
     public $messages = array();
     
     protected function fetchConditions()
@@ -257,11 +258,44 @@ class ChatSessions extends \Dsc\Mongo\Collections\Nodes
 
     /**
      * Pushes $this to the archive,
+     * emails a copy to the user and admin,
      * then removes it
      */
     public function archive()
     {
         $archive = (new \Support\Models\ChatSessionsArchive( $this ))->save();
+        
+        $recipients = array();
+        
+        // if user_email, email them the log
+        if (!empty($this->user_email)) 
+        {
+            $recipients[] = $this->user_email;
+        }        
+        
+        // if admin_email, email them the log
+        if (!empty($this->admin_email))
+        {
+            $recipients[] = $this->admin_email;
+        }
+        
+        if (!empty($recipients)) 
+        {
+            $subject = 'Your recent live chat session';
+            
+            \Base::instance()->set('chat_session', $this);
+            
+            $html = \Dsc\System::instance()->get('theme')->renderView('Support/Views::emails_html/session_log.php');
+            $text = \Dsc\System::instance()->get('theme')->renderView('Support/Views::emails_text/session_log.php');
+            
+            foreach ($recipients as $recipient)
+            {
+                \Dsc\System::instance()->get('mailer')->send($recipient, $subject, array(
+                    $html,
+                    $text
+                ));
+            }
+        }
         
         return $this->remove();
     }

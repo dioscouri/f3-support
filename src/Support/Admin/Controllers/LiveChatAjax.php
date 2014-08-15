@@ -102,6 +102,7 @@ class LiveChatAjax extends LiveChat
             $chat_session->session_id_admin = null;
             $chat_session->admin_id = null;
             $chat_session->admin_name = null;
+            $chat_session->admin_email = null;
             $chat_session->status = 'open-request';
             
             $chat_session->messages[] = (new \Support\Models\ChatMessages(array(

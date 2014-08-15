@@ -18,6 +18,7 @@ class ChatSessionsArchive extends \Dsc\Mongo\Collections\Nodes
     public $user_email = null;
     public $user_name = null;
     public $admin_name = null;
+    public $admin_email = null;
         
     public $messages = array();
     

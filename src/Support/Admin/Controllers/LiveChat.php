@@ -78,6 +78,7 @@ class LiveChat extends \Admin\Controllers\BaseAuth
             $chat_session->session_id_admin = $this->session->id();
             $chat_session->admin_id = new \MongoId( (string) $this->getIdentity()->id );
             $chat_session->admin_name = $this->getIdentity()->first_name;
+            $chat_session->admin_email = $this->getIdentity()->email;
             $chat_session->status = 'claimed';
             
             $message = 'Hello, is there anything I can help you with?'; // TODO Allow to be set by admin
@@ -114,6 +115,7 @@ class LiveChat extends \Admin\Controllers\BaseAuth
             $chat_session->session_id_admin = $this->session->id();
             $chat_session->admin_id = new \MongoId( (string) $this->getIdentity()->id );
             $chat_session->admin_name = $this->getIdentity()->first_name;
+            $chat_session->admin_email = $this->getIdentity()->email;
             $chat_session->status = 'claimed';
             
             $chat_session->messages[] = (new \Support\Models\ChatMessages(array(
