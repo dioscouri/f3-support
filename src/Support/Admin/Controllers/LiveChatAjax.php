@@ -132,7 +132,14 @@ class LiveChatAjax extends LiveChat
             
             if ($chat_session->admin_id != (string) $this->getIdentity()->id) {
                 throw new \Exception( 'You cannot close that session because you are not in it!' );
-            }            
+            }
+
+            $chat_session = $chat_session->addMessage(new \Support\Models\ChatMessages(array(
+                'sender_type' => 'system',
+                'sender_name' => 'System Bot',
+                'timestamp' => time(),
+                'text' => 'This session has been closed by ' . $this->getIdentity()->first_name,
+            )));
 
             $chat_session->archive();
     

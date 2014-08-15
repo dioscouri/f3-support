@@ -5,18 +5,10 @@ class LiveChat extends \Dsc\Controller
 {
     public function index()
     {
-        $this->theme->setTheme('SystemTheme');
-            
-        // are there no operators online?
-        $operators = \Support\Models\Operators::fetchActive();
-        if (empty($operators)) {
-            echo $this->theme->render('Support/Site/Views::livechat/no_operators.php');
-            return;           
-        }
+        $this->app->set('meta.title', 'Live Chat | Support');
         
-        // TODO is a chat session already started/requested?
+        $this->session->set('support_close_tab', 0);
         
-        // Just display the form
         echo $this->theme->render('Support/Site/Views::livechat/index.php');
     }
 }

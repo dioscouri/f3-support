@@ -8,4 +8,6 @@ class Settings extends \Dsc\Mongo\Collections\Settings
     public $last_sessions_cleanup = null;
     
     public $live_chat_enabled = false;
+    
+    public $live_chat_index = null;
 }

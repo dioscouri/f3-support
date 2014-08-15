@@ -26,7 +26,7 @@ class LiveChatAjax extends LiveChat
         $operators = \Support\Models\Operators::fetchActive();
         if (empty($operators)) {
             return $this->outputJson( $this->getJsonResponse( array(
-                'result' => $this->theme->renderView('Support/Site/Views::livechat/no_operators.php')
+                'result' => $this->theme->renderView('Support/Site/Views::livechatajax/no_operators.php')
             ) ) );           
         }
         
