@@ -47,7 +47,13 @@ class ChatSessions extends \Dsc\Mongo\Collections\Nodes
         if (strlen($filter_admin_id))
         {
             $this->setCondition( 'admin_id', $filter_admin_id );
-        }        
+        }
+
+        $filter_status = $this->getState('filter.status');
+        if (strlen($filter_status))
+        {
+            $this->setCondition( 'status', $filter_status );
+        }
         
         return $this;
     }
@@ -144,6 +150,13 @@ class ChatSessions extends \Dsc\Mongo\Collections\Nodes
         }
         
         return $items;        
+    }
+    
+    public static function unclaimed()
+    {
+        $unclaimed = (new static)->setState('filter.status', 'open-request')->getItems();
+        
+        return $unclaimed;
     }
     
     public static function fetchForSession( $session_id, $site='site' ) 

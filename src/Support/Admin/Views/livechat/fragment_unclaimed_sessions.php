@@ -1,0 +1,2 @@
+<?php $unclaimed = \Support\Models\ChatSessions::unclaimed(); ?>
+Unclaimed Sessions: <span id="unclaimed-sessions-alert" class="alert <?php echo empty($unclaimed) ? 'alert-info' : 'alert-danger'; ?>"><?php echo count($unclaimed); ?></span>

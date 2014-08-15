@@ -196,5 +196,12 @@ class LiveChat extends \Admin\Controllers\BaseAuth
         }
     
         $this->app->reroute('/admin/support/live-chat');
-    }    
+    }
+
+    public function unclaimedSessions()
+    {
+        echo $this->outputJson( $this->getJsonResponse( array(
+            'result' => $this->theme->renderView('Support/Admin/Views::livechat/fragment_unclaimed_sessions.php')
+        ) ) );        
+    }
 }

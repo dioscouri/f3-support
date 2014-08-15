@@ -55,3 +55,6 @@
   border: none;
 }
 
+#unclaimed-sessions-alert {
+  padding: 8px;
+}
