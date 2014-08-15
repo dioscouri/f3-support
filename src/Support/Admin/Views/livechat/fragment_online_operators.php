@@ -1,7 +1,7 @@
 <?php foreach ($operators = \Support\Models\Operators::fetchActive() as $operator) { ?>
 <div class="list-group-item">
     <b><?php echo $operator->fullName(); ?></b>
-    <p class="help-block"><small><?php echo (int) $operator->open_sessions; ?> open sessions</small></p>
+    <p class="help-block"><small><?php echo (int) $operator->openSessions(); ?> open sessions</small></p>
 </div>
 <?php } ?>
 

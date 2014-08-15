@@ -23,6 +23,13 @@ class Operators extends \Users\Models\Users
         return $this;
     }
     
+    public function openSessions() 
+    {
+        $sessions = \Support\Models\ChatSessions::fetchForAdmin( $this->id );
+        
+        return count($sessions);
+    }    
+    
     public static function goOnline( \Users\Models\Users $user )
     {
         $op = (new static)->setState('filter.id', $user->id)->getItem();

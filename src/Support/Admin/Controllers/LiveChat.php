@@ -119,9 +119,21 @@ class LiveChat extends \Admin\Controllers\BaseAuth
             $chat_session->save();
 
             \Dsc\System::addMessage('You claimed that session');
+            
         }
         catch (\Exception $e) {
             \Dsc\System::addMessage('There was an error claiming that session.', 'error');
+            \Dsc\System::addMessage($e->getMessage(), 'error');
+        }
+        
+
+        try {
+            $user = $this->getIdentity();
+            \Support\Models\Operators::goOnline( $user );
+            \Dsc\System::addMessage('You are now online');
+        }
+        catch (\Exception $e) {
+            \Dsc\System::addMessage('There was an error marking you as online', 'error');
             \Dsc\System::addMessage($e->getMessage(), 'error');
         }
         
