@@ -103,6 +103,13 @@ class LiveChatAjax extends LiveChat
             $chat_session->admin_id = null;
             $chat_session->admin_name = null;
             $chat_session->status = 'open-request';
+            
+            $chat_session->messages[] = (new \Support\Models\ChatMessages(array(
+                'sender_type' => 'system',
+                'sender_name' => 'System Bot',
+                'timestamp' => time(),
+                'text' => $this->getIdentity()->first_name . ' has left this session.',
+            )))->cast();            
     
             $chat_session->save();
             
@@ -134,14 +141,21 @@ class LiveChatAjax extends LiveChat
                 throw new \Exception( 'You cannot close that session because you are not in it!' );
             }
 
-            $chat_session = $chat_session->addMessage(new \Support\Models\ChatMessages(array(
+            $chat_session->messages[] = (new \Support\Models\ChatMessages(array(
                 'sender_type' => 'system',
                 'sender_name' => 'System Bot',
                 'timestamp' => time(),
                 'text' => 'This session has been closed by ' . $this->getIdentity()->first_name,
-            )));
+            )))->cast();            
 
-            $chat_session->archive();
+            if (count($chat_session->messages) < 5)
+            {
+                $chat_session->remove();
+            }
+            else
+            {
+                $chat_session->archive();
+            }            
     
             $message = 'You closed that session';
             

@@ -35,6 +35,7 @@ class LiveChatAjax extends LiveChat
         $chat_session = (new \Support\Models\ChatSessions)->setState('filter.user_session', $this->session->id())->getItem();
         if (!empty($chat_session->id)) 
         {
+            $this->session->set('support_session_id', (string) $chat_session->id);
             $this->app->set('chat_session', $chat_session);
             $this->app->set('messages', $chat_session->messages);
         }
@@ -51,7 +52,21 @@ class LiveChatAjax extends LiveChat
         $chat_session = (new \Support\Models\ChatSessions)->setState('filter.user_session', $this->session->id())->getItem();
         if (!empty($chat_session->id))
         {
-            $chat_session->archive();
+            $chat_session->messages[] = (new \Support\Models\ChatMessages(array(
+                'sender_type' => 'system',
+                'sender_name' => 'System Bot',
+                'timestamp' => time(),
+                'text' => 'This session has been closed by the user',
+            )))->cast();
+
+            if (count($chat_session->messages) < 5) 
+            {
+                $chat_session->remove();
+            }
+            else 
+            {
+                $chat_session->archive();                
+            }
         }
                 
         // no matter what, set a flag so the tab doesn't display during the session 
@@ -75,6 +90,8 @@ class LiveChatAjax extends LiveChat
         
         try {
             $chat_session = $model->save();
+            
+            $this->session->set('support_session_id', (string) $chat_session->id);
             
             $this->app->set('chat_session', $chat_session);
             $this->app->set('messages', $chat_session->messages);
@@ -110,6 +127,8 @@ class LiveChatAjax extends LiveChat
                 )));
             }
             
+            $this->session->set('support_session_id', (string) $chat_session->id);
+            
             $this->app->set('chat_session', $chat_session);
 
             $last_checked = (int) $this->app->get('PARAMS.last_checked');
@@ -134,6 +153,17 @@ class LiveChatAjax extends LiveChat
         $chat_session = (new \Support\Models\ChatSessions)->setState('filter.user_session', $this->session->id())->getItem();
         if (empty($chat_session->id))
         {
+            $support_session_id = $this->session->get('support_session_id');
+            if (!empty($support_session_id)) 
+            {
+                $this->session->set('support_session_id', null);
+                
+                return $this->outputJson( $this->getJsonResponse( array(
+                    'result' => $this->theme->renderView('Support/Site/Views::livechatajax/chat_session_closed.php'),
+                    'last_checked' => time()
+                ) ) );                
+            }
+            
             return $this->outputJson( $this->getJsonResponse( array(
                 'last_checked' => time()
             ) ) );

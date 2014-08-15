@@ -51,18 +51,15 @@ SupportLiveChatInitiate = function(r) {
 
 jQuery(document).ready(function(){
     jQuery('#site-chat-submit-request').on('click', function(ev){
-        console.log('submitting button');
         jQuery('#site-chat-form').submit();
     });
     
     jQuery('#site-chat-form').on('submit', function(ev){
-        console.log('submitting form');
         ev.preventDefault();
         
         var form = jQuery(this);
         var url = form.attr('action');
 
-        console.log('making request');
         var request = jQuery.ajax({
             type: 'post', 
             url: url,

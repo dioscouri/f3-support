@@ -61,7 +61,7 @@ class LiveChat extends \Admin\Controllers\BaseAuth
         $session_id = $this->app->get('PARAMS.session_id');
     
         try {
-            $chat_session = (new \Support\Models\ChatSessions)->setState('filter.session_id', $session_id)->getItem();
+            $chat_session = (new \Support\Models\ChatSessions)->setState('filter.user_session', $session_id)->getItem();
             if (!empty($chat_session->id)) {
                 throw new \Exception( 'There is already an open request for that visitor.' );
             }
@@ -116,6 +116,13 @@ class LiveChat extends \Admin\Controllers\BaseAuth
             $chat_session->admin_name = $this->getIdentity()->first_name;
             $chat_session->status = 'claimed';
             
+            $chat_session->messages[] = (new \Support\Models\ChatMessages(array(
+                'sender_type' => 'system',
+                'sender_name' => 'System Bot',
+                'timestamp' => time(),
+                'text' => $this->getIdentity()->first_name . ' has joined this session.',
+            )))->cast();
+            
             $chat_session->save();
 
             \Dsc\System::addMessage('You claimed that session');
@@ -137,63 +144,6 @@ class LiveChat extends \Admin\Controllers\BaseAuth
             \Dsc\System::addMessage($e->getMessage(), 'error');
         }
         
-        $this->app->reroute('/admin/support/live-chat');
-    }
-    
-    public function unclaimSession()
-    {
-        $chat_session_id = $this->app->get('PARAMS.session_id');
-    
-        try {
-            $chat_session = (new \Support\Models\ChatSessions)->setState('filter.id', $chat_session_id)->getItem();
-            if (empty($chat_session->id)) {
-                throw new \Exception( 'Invalid Session' );
-            }
-    
-            if ($chat_session->admin_id != (string) $this->getIdentity()->id) {
-                throw new \Exception( 'You cannot leave this session because you are not in it!' );
-            }
-            
-            $chat_session->session_id_admin = null;
-            $chat_session->admin_id = null;
-            $chat_session->admin_name = null;
-            $chat_session->status = 'open-request';
-    
-            $chat_session->save();
-    
-            \Dsc\System::addMessage('You have left that session');
-        }
-        catch (\Exception $e) {
-            \Dsc\System::addMessage('There was an error leaving that session.', 'error');
-            \Dsc\System::addMessage($e->getMessage(), 'error');
-        }
-    
-        $this->app->reroute('/admin/support/live-chat');
-    }
-
-    public function closeSession()
-    {
-        $chat_session_id = $this->app->get('PARAMS.session_id');
-    
-        try {
-            $chat_session = (new \Support\Models\ChatSessions)->setState('filter.id', $chat_session_id)->getItem();
-            if (empty($chat_session->id)) {
-                throw new \Exception( 'Invalid Session' );
-            }
-    
-            if ($chat_session->admin_id != (string) $this->getIdentity()->id) {
-                throw new \Exception( 'You cannot close that session because you are not in it!' );
-            }            
-
-            $chat_session->archive();
-    
-            \Dsc\System::addMessage('You closed that session');
-        }
-        catch (\Exception $e) {
-            \Dsc\System::addMessage('There was an error closing that session.', 'error');
-            \Dsc\System::addMessage($e->getMessage(), 'error');
-        }
-    
         $this->app->reroute('/admin/support/live-chat');
     }
 

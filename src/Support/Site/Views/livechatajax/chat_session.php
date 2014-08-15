@@ -29,9 +29,8 @@ SupportLiveChatUpdate = function(r) {
     if (r.result) {
         jQuery('#chat-messages').append(r.result);
         jQuery('#chat-messages').animate({ scrollTop: jQuery('#chat-messages')[0].scrollHeight}, 1000);
-        
-        // TODO fade in new messages nicely ratehr than append
     }
+    
     if (r.last_checked) {
         window.last_checked = r.last_checked;
     }    
@@ -42,7 +41,6 @@ SupportGetNewMessages = function(){
         if (data.result) {
             jQuery('#chat-messages').append(data.result);
             jQuery('#chat-messages').animate({ scrollTop: jQuery('#chat-messages')[0].scrollHeight}, 1000);
-            // TODO fade in new messages nicely ratehr than append            
         }
 
         if (data.last_checked) {
