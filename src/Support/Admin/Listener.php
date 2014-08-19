@@ -22,11 +22,13 @@ class Listener extends \Dsc\Singleton
             ));
             
             $children = array(
+                /*
                 array(
                     'title' => 'Dashboard',
                     'route' => './admin/support',
                     'icon' => 'fa fa-support'
                 ),
+                */
                 array(
                     'title' => 'Live Chat',
                     'route' => './admin/support/live-chat',
