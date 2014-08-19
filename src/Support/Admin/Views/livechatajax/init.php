@@ -23,7 +23,7 @@ jQuery(document).ready(function(){
 });
     
 SupportGetUnclaimedSessions = function(){
-    jQuery.get( "./admin/support/live-chat/unclaimed-sessions", function( data ) {
+    jQuery.get( "./admin/support/live-chat/unclaimed-sessions?ping=1", function( data ) {
         if (data.result) {
             jQuery( "#unclaimed-sessions" ).html( data.result );
         }           

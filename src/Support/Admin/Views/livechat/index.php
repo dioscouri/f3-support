@@ -49,7 +49,7 @@ jQuery(document).ready(function(){
 });
 
 SupportGetOnlineUsers = function(){
-    jQuery.get( "./admin/support/live-chat/online-users", function( data ) {
+    jQuery.get( "./admin/support/live-chat/online-users?ping=1", function( data ) {
         if (data.result) {
             jQuery( "#online-users" ).html( data.result );
         }           
@@ -57,7 +57,7 @@ SupportGetOnlineUsers = function(){
 }
 
 SupportGetOnlineOperators = function(){
-    jQuery.get( "./admin/support/live-chat/online-operators", function( data ) {
+    jQuery.get( "./admin/support/live-chat/online-operators?ping=1", function( data ) {
         if (data.result) {
             jQuery( "#online-operators" ).html( data.result );
         }           
