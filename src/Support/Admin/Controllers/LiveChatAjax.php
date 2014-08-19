@@ -69,7 +69,9 @@ class LiveChatAjax extends LiveChat
         if (empty($chat_session->id))
         {
             return $this->outputJson( $this->getJsonResponse( array(
-                'last_checked' => time()
+                'result' => $this->theme->renderView('Support/Admin/Views::livechatajax/chat_session_closed.php'),
+                'last_checked' => time(),
+                'stop_polling' => true
             ) ) );
         }
         

@@ -40,6 +40,12 @@
                 var self = this;
                 
                 self.runner = window.setTimeout(function() { self.doAction(); }, self.options.interval);
+            },
+            
+            stop: function() {
+                var self = this;
+                
+                window.clearTimeout(self.runner);
             },            
             
             doAction: function() {

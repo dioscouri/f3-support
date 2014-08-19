@@ -51,6 +51,10 @@ SupportGetNewMessages<?php echo $chat_id; ?> = function(){
         if (data.last_checked) {
             window.last_checked_<?php echo $chat_id; ?> = data.last_checked;
         }
+
+        if (data.stop_polling) {
+            jQuery('#chat-messages-<?php echo $chat_id; ?>').data('poller').stop();
+        }
     });
 }
 

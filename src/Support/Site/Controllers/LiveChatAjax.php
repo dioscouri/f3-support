@@ -158,15 +158,16 @@ class LiveChatAjax extends LiveChat
             {
                 $this->session->set('support_session_id', null);
                 
-                return $this->outputJson( $this->getJsonResponse( array(
+                $response = $this->getJsonResponse( array(
                     'result' => $this->theme->renderView('Support/Site/Views::livechatajax/chat_session_closed.php'),
-                    'last_checked' => time()
-                ) ) );                
+                ) );                
+                $response->last_checked = time();
+                return $this->outputJson($response);
             }
-            
-            return $this->outputJson( $this->getJsonResponse( array(
-                'last_checked' => time()
-            ) ) );
+
+            $response = $this->getJsonResponse();
+            $response->last_checked = time();
+            return $this->outputJson($response);
         }
         
         $new_last_checked = time();
