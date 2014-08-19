@@ -1,6 +1,6 @@
 (function () {
     var defaults = {
-            interval: 10000,
+            interval: 5000,
             delay: 0,
             action: null
         };
