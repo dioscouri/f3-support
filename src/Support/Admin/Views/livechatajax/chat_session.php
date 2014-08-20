@@ -12,6 +12,9 @@
             <a class="btn btn-sm btn-info ajax-link" href="./admin/support/live-chat/ajax/unclaim/<?php echo $chat_id; ?>">Leave</a>
             <a class="btn btn-sm btn-danger ajax-link" href="./admin/support/live-chat/ajax/close/<?php echo $chat_id; ?>">End</a>
         </div>        
+    </div>
+    <div style="margin-top: 5px;">
+        <small><label>On:</label> <a class="current-url" href="<?php echo $chat_session->userSessionData()->path; ?>"><?php echo $chat_session->userSessionData()->path; ?></a></small>
     </div>    
 </div>
 <div id="chat-messages-<?php echo $chat_id; ?>" class="list-group chat-messages" data-action="SupportGetNewMessages<?php echo $chat_id; ?>">
@@ -36,9 +39,14 @@ SupportLiveChatUpdate<?php echo $chat_id; ?> = function(r) {
         SupportAppendUniqueMessages(jQuery('#chat-messages-<?php echo $chat_id; ?>'), r.result);
         SupportScrollBottom(jQuery('#chat-messages-<?php echo $chat_id; ?>'));
     }
+    
     if (r.last_checked) {
         window.last_checked_<?php echo $chat_id; ?> = r.last_checked;
-    }    
+    }
+
+    if (r.current_url) {
+        jQuery('#admin-chat-wrapper-<?php echo $chat_session->id; ?> .current-url').attr('href', r.current_url).text(r.current_url);
+    }        
 }
 
 SupportGetNewMessages<?php echo $chat_id; ?> = function(){
@@ -51,6 +59,10 @@ SupportGetNewMessages<?php echo $chat_id; ?> = function(){
         if (data.last_checked) {
             window.last_checked_<?php echo $chat_id; ?> = data.last_checked;
         }
+
+        if (data.current_url) {
+            jQuery('#admin-chat-wrapper-<?php echo $chat_session->id; ?> .current-url').attr('href', data.current_url).text(data.current_url);
+        }        
 
         if (data.stop_polling) {
             jQuery('#chat-messages-<?php echo $chat_id; ?>').data('poller').stop();

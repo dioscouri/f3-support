@@ -62,7 +62,7 @@ jQuery(document).ready(function(){
         ev.preventDefault();
         
         var form = jQuery(this);
-        var url = form.attr('action') + '/' + window.last_checked;
+        var url = form.attr('action') + '/' + window.last_checked + '?ping=1';
 
         var request = $.ajax({
             type: 'post', 

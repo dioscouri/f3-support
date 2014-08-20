@@ -299,4 +299,16 @@ class ChatSessions extends \Dsc\Mongo\Collections\Nodes
         
         return $this->remove();
     }
+    
+    /**
+     * Gets the associated user's session data object
+     *
+     * @return unknown
+     */
+    public function userSessionData()
+    {
+        $data = (new \Dsc\Mongo\Collections\Sessions)->load(array('session_id'=>$this->session_id_user));
+    
+        return $data;
+    }    
 }

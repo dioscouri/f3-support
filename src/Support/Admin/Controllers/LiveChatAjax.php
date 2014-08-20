@@ -49,7 +49,8 @@ class LiveChatAjax extends LiveChat
             $this->app->set('messages', $chat_session->messages($last_checked) );
             
             $response = $this->getJsonResponse( array(
-                'result' => $this->theme->renderView('Support/Admin/Views::livechatajax/chat_messages.php')
+                'result' => $this->theme->renderView('Support/Admin/Views::livechatajax/chat_messages.php'),
+                'current_url' => $chat_session->userSessionData()->path
             ) );
             
             $response->last_checked = $time;
@@ -81,7 +82,8 @@ class LiveChatAjax extends LiveChat
         $this->app->set('messages', $chat_session->messages($last_checked) );
         
         $response = $this->getJsonResponse( array(
-            'result' => $this->theme->renderView('Support/Admin/Views::livechatajax/chat_messages.php')
+            'result' => $this->theme->renderView('Support/Admin/Views::livechatajax/chat_messages.php'),
+            'current_url' => $chat_session->userSessionData()->path
         ) );
 
         $response->last_checked = $new_last_checked;

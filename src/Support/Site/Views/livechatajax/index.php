@@ -1,4 +1,4 @@
-<form id="site-chat-form" action="./support/live-chat/ajax/request" data-callback="SupportLiveChatInitiate">
+<form id="site-chat-form" action="./support/live-chat/ajax/request?ping=1" data-callback="SupportLiveChatInitiate">
     <div class="panel-body">
         <?php if (!empty($this->auth->getIdentity()->id)) { ?>
         
