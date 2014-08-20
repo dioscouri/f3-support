@@ -58,15 +58,8 @@ class LiveChatAjax extends LiveChat
                 'timestamp' => time(),
                 'text' => 'This session has been closed by the user',
             )))->cast();
-
-            if (count($chat_session->messages) < 5) 
-            {
-                $chat_session->remove();
-            }
-            else 
-            {
-                $chat_session->archive();                
-            }
+            
+            $chat_session->archive();
         }
                 
         // no matter what, set a flag so the tab doesn't display during the session 

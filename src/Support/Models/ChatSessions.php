@@ -27,7 +27,7 @@ class ChatSessions extends \Dsc\Mongo\Collections\Nodes
         parent::fetchConditions();
         
         $filter_user_session = $this->getState('filter.user_session');
-        if (strlen($filter_user_session))
+        if (!empty($filter_user_session))
         {
             $this->setCondition( 'session_id_user', $filter_user_session );
         }
@@ -192,16 +192,6 @@ class ChatSessions extends \Dsc\Mongo\Collections\Nodes
             $max = 300; // 5 minutes
         }
 
-        /*
-        static::collection()->remove(array(
-            'metadata.last_modified.time' => array(
-                '$lt' => time() - $max
-            )
-        ), array(
-            'w' => 0
-        ));
-        */
-        
         $active_session_ids = \Dsc\Mongo\Collections\Sessions::collection()->distinct("session_id", array(
             'timestamp' => array( '$gt' => time() - $max ),
             'site_id' => 'site'
@@ -209,18 +199,44 @@ class ChatSessions extends \Dsc\Mongo\Collections\Nodes
 
         if (empty($active_session_ids)) 
         {
-            $conditions = array();
+            $conditions = array(
+                'messages' => array( '$size' => 0 )
+            );
+            
+            static::collection()->remove( $conditions, array(
+                'w' => 0
+            ));
+
+            // get all chat_sessions that remain, and archive them all
+            if ($remaining = (new static)->getItems())
+            {
+                foreach ($remaining as $chat)
+                {
+                    $chat->archive();
+                }
+            }            
         }
         else 
         {
             $conditions = array(
-                'session_id_user' => array( '$nin' => $active_session_ids )                
+                'session_id_user' => array( '$nin' => $active_session_ids ),
+                'messages' => array( '$size' => 0 )
             );
+            
+            static::collection()->remove( $conditions, array(
+                'w' => 0
+            ));
+            
+            // get chat_sessions $nin $active_session_ids and archive them
+            $remaining = (new static)->setState('filter.user_session', array( '$nin' => $active_session_ids ) )->getItems();
+            if ($remaining)
+            {
+                foreach ($remaining as $chat) 
+                {
+                    $chat->archive();
+                }
+            }
         }
-        
-        static::collection()->remove( $conditions, array(
-            'w' => 0
-        ));        
     
         return true;
     }
@@ -238,7 +254,9 @@ class ChatSessions extends \Dsc\Mongo\Collections\Nodes
                 $settings->store();
             }
     
-            return static::cleanup();
+            \Dsc\Queue::task('\Support\Models\ChatSessions::cleanup');
+            
+            return true;
         }
     
         return null;
@@ -261,9 +279,24 @@ class ChatSessions extends \Dsc\Mongo\Collections\Nodes
      * emails a copy to the user and admin,
      * then removes it
      */
-    public function archive()
+    public function archive($check_messages_threshold=true)
     {
-        $archive = (new \Support\Models\ChatSessionsArchive( $this ))->save();
+        if (!$check_messages_threshold) 
+        {
+            $archive = (new \Support\Models\ChatSessionsArchive( $this ))->save();
+        }
+        else 
+        {
+            $settings = \Support\Models\Settings::fetch();
+            if (count($this->messages) < $settings->archive_threshold)
+            {
+                // don't archive stubs
+            }
+            else
+            {
+                $archive = (new \Support\Models\ChatSessionsArchive( $this ))->save();
+            }
+        }        
         
         $recipients = array();
         

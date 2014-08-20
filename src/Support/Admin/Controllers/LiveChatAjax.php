@@ -154,14 +154,7 @@ class LiveChatAjax extends LiveChat
                 'text' => 'This session has been closed by ' . $this->getIdentity()->first_name,
             )))->cast();            
 
-            if (count($chat_session->messages) < 5)
-            {
-                $chat_session->remove();
-            }
-            else
-            {
-                $chat_session->archive();
-            }            
+            $chat_session->archive();
     
             $message = 'You closed that session';
             
