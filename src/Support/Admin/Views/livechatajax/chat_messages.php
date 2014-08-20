@@ -1,6 +1,6 @@
 <?php if (!empty($messages)) { ?>
     <?php foreach ($messages as $message) { ?>
-    <div class="list-group-item">
+    <div class="list-group-item chat-message" id="<?php echo $chat_session->id . '-' . $message['sender_type'] . '-' . $message['timestamp']; ?>">
         <div class="row">
             <?php if ($message['sender_type'] == 'user') { ?>
             <div class="col-xs-9 col-sm-10 col-md-10">

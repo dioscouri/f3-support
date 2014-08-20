@@ -77,6 +77,7 @@ class LiveChatAjax extends LiveChat
         
         $new_last_checked = time();
         
+        $this->app->set('chat_session', $chat_session);
         $this->app->set('messages', $chat_session->messages($last_checked) );
         
         $response = $this->getJsonResponse( array(

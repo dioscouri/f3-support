@@ -27,8 +27,8 @@ SupportLiveChatUpdate = function(r) {
     /* r == a data response object */
     jQuery('#new-comment').val('');
     if (r.result) {
-        jQuery('#chat-messages').append(r.result);
-        jQuery('#chat-messages').animate({ scrollTop: jQuery('#chat-messages')[0].scrollHeight}, 1000);
+        SupportAppendUniqueMessages(jQuery('#chat-messages'), r.result);
+        SupportScrollBottom(jQuery('#chat-messages'));
     }
     
     if (r.last_checked) {
@@ -39,13 +39,17 @@ SupportLiveChatUpdate = function(r) {
 SupportGetNewMessages = function(){
     jQuery.get( "./support/live-chat/ajax/new-messages/" + window.last_checked + '?ping=1', function( data ) {
         if (data.result) {
-            jQuery('#chat-messages').append(data.result);
-            jQuery('#chat-messages').animate({ scrollTop: jQuery('#chat-messages')[0].scrollHeight}, 1000);
+            SupportAppendUniqueMessages(jQuery('#chat-messages'), data.result);
+            SupportScrollBottom(jQuery('#chat-messages'));
         }
 
         if (data.last_checked) {
             window.last_checked = data.last_checked;
         }
+
+        if (data.stop_polling) {
+            jQuery('#chat-messages').data('poller').stop();
+        }        
     });
 }
 
@@ -53,8 +57,6 @@ jQuery(document).ready(function(){
     window.last_checked = <?php echo time(); ?>; 
         
     jQuery('.poller').poller();
-
-    jQuery('#chat-messages').animate({ scrollTop: jQuery('#chat-messages')[0].scrollHeight}, 1000);
 
     jQuery('#site-chat-form').on('submit', function(ev){
         ev.preventDefault();
@@ -96,7 +98,8 @@ jQuery(document).ready(function(){
             type: 'get', 
             url: url
         }).done(function(data){
-            jQuery('#site-chat').remove();
+            jQuery('#chat-messages').data('poller').stop();
+            jQuery('#site-chat').remove();            
         }).fail(function(data){
 
         }).always(function(data){
@@ -105,5 +108,7 @@ jQuery(document).ready(function(){
     });    
 
     jQuery('#site-chat-body').collapse('show');
+    
+    SupportScrollBottom(jQuery('#chat-messages'));
 });
 </script>

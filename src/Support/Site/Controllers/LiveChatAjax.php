@@ -160,6 +160,7 @@ class LiveChatAjax extends LiveChat
                 
                 $response = $this->getJsonResponse( array(
                     'result' => $this->theme->renderView('Support/Site/Views::livechatajax/chat_session_closed.php'),
+                    'stop_polling' => true
                 ) );                
                 $response->last_checked = time();
                 return $this->outputJson($response);
@@ -167,11 +168,13 @@ class LiveChatAjax extends LiveChat
 
             $response = $this->getJsonResponse();
             $response->last_checked = time();
+            $response->stop_polling = true;
             return $this->outputJson($response);
         }
         
         $new_last_checked = time();
         
+        $this->app->set('chat_session', $chat_session);
         $this->app->set('messages', $chat_session->messages($last_checked) );
         
         $response = $this->getJsonResponse( array(

@@ -33,8 +33,8 @@ SupportLiveChatUpdate<?php echo $chat_id; ?> = function(r) {
     /* r == a data response object */
     jQuery('#new-comment-<?php echo $chat_id; ?>').val('');
     if (r.result) {
-        jQuery('#chat-messages-<?php echo $chat_id; ?>').append(r.result);
-        jQuery('#chat-messages-<?php echo $chat_id; ?>').animate({ scrollTop: jQuery('#chat-messages-<?php echo $chat_id; ?>')[0].scrollHeight}, 1000);
+        SupportAppendUniqueMessages(jQuery('#chat-messages-<?php echo $chat_id; ?>'), r.result);
+        SupportScrollBottom(jQuery('#chat-messages-<?php echo $chat_id; ?>'));
     }
     if (r.last_checked) {
         window.last_checked_<?php echo $chat_id; ?> = r.last_checked;
@@ -44,8 +44,8 @@ SupportLiveChatUpdate<?php echo $chat_id; ?> = function(r) {
 SupportGetNewMessages<?php echo $chat_id; ?> = function(){
     jQuery.get( "./admin/support/live-chat/ajax/new-messages/<?php echo $chat_id; ?>/" + window.last_checked_<?php echo $chat_id; ?> + '?ping=1', function( data ) {
         if (data.result) {
-            jQuery('#chat-messages-<?php echo $chat_id; ?>').append(data.result);
-            jQuery('#chat-messages-<?php echo $chat_id; ?>').animate({ scrollTop: jQuery('#chat-messages-<?php echo $chat_id; ?>')[0].scrollHeight}, 1000);           
+            SupportAppendUniqueMessages(jQuery('#chat-messages-<?php echo $chat_id; ?>'), data.result);
+            SupportScrollBottom(jQuery('#chat-messages-<?php echo $chat_id; ?>'));           
         }
 
         if (data.last_checked) {
