@@ -9,20 +9,6 @@ class LiveChat extends \Admin\Controllers\BaseAuth
     	
     	echo $this->theme->renderTheme('Support/Admin/Views::livechat/index.php');
     }
-    
-    public function onlineUsers()
-    {
-        echo $this->outputJson( $this->getJsonResponse( array(
-            'result' => $this->theme->renderView('Support/Admin/Views::livechat/fragment_online_users.php') 
-        ) ) );
-    }
-    
-    public function onlineOperators()
-    {
-        echo $this->outputJson( $this->getJsonResponse( array(
-            'result' => $this->theme->renderView('Support/Admin/Views::livechat/fragment_online_operators.php')
-        ) ) );
-    }
 
     public function goOnline()
     {
@@ -147,12 +133,5 @@ class LiveChat extends \Admin\Controllers\BaseAuth
         }
         
         $this->app->reroute('/admin/support/live-chat');
-    }
-
-    public function unclaimedSessions()
-    {
-        echo $this->outputJson( $this->getJsonResponse( array(
-            'result' => $this->theme->renderView('Support/Admin/Views::livechat/fragment_unclaimed_sessions.php')
-        ) ) );        
     }
 }

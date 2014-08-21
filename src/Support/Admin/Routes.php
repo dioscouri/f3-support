@@ -63,17 +63,17 @@ class Routes extends \Dsc\Routes\Group
         ) );        
 
         $this->add( '/live-chat/online-users [ajax]', 'GET', array(
-            'controller' => 'LiveChat',
+            'controller' => 'LiveChatAjax',
             'action' => 'onlineUsers'
         ) );
         
         $this->add( '/live-chat/online-operators [ajax]', 'GET', array(
-            'controller' => 'LiveChat',
+            'controller' => 'LiveChatAjax',
             'action' => 'onlineOperators'
         ) );
         
         $this->add( '/live-chat/unclaimed-sessions [ajax]', 'GET', array(
-            'controller' => 'LiveChat',
+            'controller' => 'LiveChatAjax',
             'action' => 'unclaimedSessions'
         ) );        
 

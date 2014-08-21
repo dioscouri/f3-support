@@ -23,6 +23,45 @@ class LiveChatAjax extends LiveChat
         ) ) );
     }
     
+    public function unclaimedSessions()
+    {
+        $user = $this->getIdentity();
+        if (empty($user->id))
+        {
+            return;
+        }
+                
+        echo $this->outputJson( $this->getJsonResponse( array(
+            'result' => $this->theme->renderView('Support/Admin/Views::livechat/fragment_unclaimed_sessions.php')
+        ) ) );
+    }
+    
+    public function onlineUsers()
+    {
+        $user = $this->getIdentity();
+        if (empty($user->id))
+        {
+            return;
+        }
+                
+        echo $this->outputJson( $this->getJsonResponse( array(
+            'result' => $this->theme->renderView('Support/Admin/Views::livechat/fragment_online_users.php')
+        ) ) );
+    }    
+    
+    public function onlineOperators()
+    {
+        $user = $this->getIdentity();
+        if (empty($user->id))
+        {
+            return;
+        }
+                
+        echo $this->outputJson( $this->getJsonResponse( array(
+            'result' => $this->theme->renderView('Support/Admin/Views::livechat/fragment_online_operators.php')
+        ) ) );
+    }    
+    
     public function addComment()
     {
         $chat_session_id = $this->app->get('PARAMS.session_id');

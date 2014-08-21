@@ -14,7 +14,7 @@
         </div>        
     </div>
     <div style="margin-top: 5px;">
-        <small><label>On:</label> <a class="current-url" href="<?php echo $chat_session->userSessionData()->path; ?>"><?php echo $chat_session->userSessionData()->path; ?></a></small>
+        <small><label>On:</label> <a class="current-url" target="_blank" href="<?php echo $chat_session->userSessionData()->path; ?>"><?php echo $chat_session->userSessionData()->path; ?></a></small>
     </div>    
 </div>
 <div id="chat-messages-<?php echo $chat_id; ?>" class="list-group chat-messages" data-action="SupportGetNewMessages<?php echo $chat_id; ?>">

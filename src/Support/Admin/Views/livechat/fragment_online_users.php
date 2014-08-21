@@ -28,6 +28,9 @@ if (!empty($chat_session->id)) {
             <div class="help-block">
                 <div><small>Last active: <?php echo \Dsc\Mongo\Collections\Sessions::ago( $visitor->timestamp ); ?></small></div>
                 <div><small>Logged in: <?php echo $visitor->user_id ? 'Yes' : 'No'; ?></small></div>
+                <div>
+                    <small><label>On:</label> <a class="current-url" target="_blank" href="<?php echo $visitor->path; ?>"><?php echo $visitor->path; ?></a></small>
+                </div>                
             </div>
             <?php if (!empty($chat_session->admin_name)) { ?>
                 <div class="help-block">
