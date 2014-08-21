@@ -31,7 +31,8 @@
                 <?php echo $this->renderView('Support/Admin/Views::livechat/fragment_online_users.php'); ?>                                 
             </div>
         </div>
-        
+    </div>
+    <div class="col-sm-3 col-md-3">        
         <div class="panel panel-default">
             <div class="panel-heading">
                 Online operators

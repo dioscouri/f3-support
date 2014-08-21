@@ -32,6 +32,7 @@ if (!empty($chat_session->id)) {
                     <small><label>On:</label> <a class="current-url" target="_blank" href="<?php echo $visitor->path; ?>"><?php echo $visitor->path; ?></a></small>
                 </div>                
             </div>
+            
             <?php if (!empty($chat_session->admin_name)) { ?>
                 <div class="help-block">
                     <div><small>In session with: <?php echo $chat_session->admin_name; ?></small></div>

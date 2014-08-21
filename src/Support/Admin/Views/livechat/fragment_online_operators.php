@@ -2,6 +2,10 @@
 <div class="list-group-item">
     <b><?php echo $operator->fullName(); ?></b>
     <p class="help-block"><small><?php echo (int) $operator->openSessions(); ?> open sessions</small></p>
+    
+    <div class="help-block">
+        <div><small>Last active: <?php echo \Dsc\Mongo\Collections\Sessions::ago( $operator->last_activity ); ?></small></div>               
+    </div>    
 </div>
 <?php } ?>
 
