@@ -323,10 +323,16 @@ class ChatSessions extends \Dsc\Mongo\Collections\Nodes
             
             foreach ($recipients as $recipient)
             {
-                \Dsc\System::instance()->get('mailer')->send($recipient, $subject, array(
-                    $html,
-                    $text
-                ));
+                try {
+                    \Dsc\System::instance()->get('mailer')->send($recipient, $subject, array(
+                        $html,
+                        $text
+                    ));                    
+                }
+                catch (\Exception $e) 
+                {
+                    $this->log( $e->getMessage() );
+                }
             }
         }
         
