@@ -331,7 +331,7 @@ class ChatSessions extends \Dsc\Mongo\Collections\Nodes
                 }
                 catch (\Exception $e) 
                 {
-                    $this->log( $e->getMessage() );
+                    $this->log( $e->getMessage(), 'ERROR', 'ChatSessions::archive' );
                 }
             }
         }
