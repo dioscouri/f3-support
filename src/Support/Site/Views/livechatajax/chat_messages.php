@@ -26,9 +26,11 @@
                 echo preg_replace("~[[:alpha:]]+://[^<>[:space:]]+[[:alnum:]/]~","<a href=\"\\0\">\\0</a>", $message['text']);
                 ?>
                 </div>
+                <?php if ($message['sender_type'] != 'system') { ?>
                 <p class="text-info"><?php echo $message['sender_name']; ?> 
                     <?php /*?><small class="text-muted"><?php echo \Dsc\Mongo\Collections\Sessions::ago( $message['timestamp'] ); ?></small>*/ ?>
                 </p>
+                <?php } ?>
             </div>            
             <?php } ?>
         </div>
