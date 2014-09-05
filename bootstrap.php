@@ -70,7 +70,10 @@ class SupportBootstrap extends \Dsc\Bootstrap
         
         if ($op = \Support\Models\Operators::isOnline( $this->auth->getIdentity() )) 
         {
-            $op->markActive();
+            if (\Dsc\System::instance()->get('input')->get('ping', null, 'int') != 1)
+            {
+                $op->markActive();
+            }
         }
         
         \Dsc\System::instance()->getDispatcher()->addListener(\Support\Listeners\Users::instance());
