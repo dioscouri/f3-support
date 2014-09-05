@@ -31,7 +31,12 @@ class LiveChatAjax extends LiveChat
             return;
         }
                 
+        $unclaimed = \Support\Models\ChatSessions::unclaimed();
+        $is_online = \Support\Models\Operators::isOnline( $user );
+        
         echo $this->outputJson( $this->getJsonResponse( array(
+            'alert' => $is_online ? true : false,
+            'count' => count($unclaimed),
             'result' => $this->theme->renderView('Support/Admin/Views::livechat/fragment_unclaimed_sessions.php')
         ) ) );
     }

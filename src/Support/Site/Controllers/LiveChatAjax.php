@@ -6,7 +6,7 @@ class LiveChatAjax extends LiveChat
     public function beforeRoute()
     {
         // no matter what, only the support view's html gets returned
-        $this->theme->setTheme('SystemTheme');
+        //$this->theme->setTheme('SystemTheme');
     } 
     
     public function init()

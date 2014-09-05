@@ -24,9 +24,14 @@ jQuery(document).ready(function(){
     
 SupportGetUnclaimedSessions = function(){
     jQuery.get( "./admin/support/live-chat/unclaimed-sessions?ping=1", function( data ) {
+        var current_count = jQuery('#unclaimed-sessions-alert').attr('data-count');
         if (data.result) {
             jQuery( "#unclaimed-sessions" ).html( data.result );
-        }           
+        }
+
+        if (data.alert && data.count > current_count) {
+            alert('There is a new unclaimed chat session.');
+        }
     });
 }
 </script>
