@@ -90,8 +90,13 @@ class Operators extends \Users\Models\Users
      */
     public static function isActive( \Users\Models\Users $user )
     {
+        $settings = \Support\Models\Settings::fetch();
+        $last_active = !empty($settings->operator_inactive) ? $settings->operator_inactive : 5;
+
+        $diff = $last_active * 60;
+        
         $op = (new static)->setState('filter.id', $user->id)->getItem();
-        if (!empty($op->id) && $op->last_activity >= (time() - 300))
+        if (!empty($op->id) && $op->last_activity >= (time() - $diff))
         {
             return $op;
         }
@@ -109,7 +114,9 @@ class Operators extends \Users\Models\Users
     {
         if (is_null($after))
         {
-            $last_active = 5; // TODO fetch from a setting  // 5 minutes ago
+            $settings = \Support\Models\Settings::fetch();
+            $last_active = !empty($settings->operator_inactive) ? $settings->operator_inactive : 5;
+            
             $after = time() - ($last_active * 60);
         }
     
